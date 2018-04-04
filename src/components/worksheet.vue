@@ -1,28 +1,71 @@
 <template>
-  <div>
-    <canvas id="worksheet"></canvas>
+  <div id="worksheet">
+    <canvas id="canvas"></canvas>
+    <img id="img-model" :src="imgSrc" style="width: 530px; height: 630px">
+    <Control v-for="(object, i) in objects" :key="i" :klass="object" @ondrag="ondragControl" />
   </div>
 </template>
 
 <script>
 import { fabric } from "fabric";
 import store from "@/store";
+import Control from "./control";
 
 export default {
-  created () {
+  components: {
+    Control
+  },
+  mounted () {
     this.init()
+    setTimeout(() => {
+      this.addText()
+    }, 1000);
+  },
+  data () {
+    return {
+      imgSrc: '/img/crew_front.png'
+    }
   },
   methods: {
     init () {
-      let canvas = new fabric.Canvas('worksheet', {
-        width: 300,
-        height: 300,
-        backgroundColor: '#dddddd'
+      let canvas = new fabric.Canvas('canvas', {
+        width: 530,
+        height: 630,
       })
-  
+      canvas.renderAll()
       store.commit('setCanvas', canvas)
+    },
+    addText(){
+      const text = new fabric.Text('Hello World', { left: 100, top: 100})
+      this.canvas.add(text)
+      this.canvas.renderAll()
+    },
+    ondragControl(pos){
+      let obj = this.canvas.getObjects()[0]
+      obj.set(pos)
+      this.canvas.renderAll()
+    }
+  },
+  computed: {
+    canvas () {
+      return store.state.worksheet.canvas
+    },
+    objects () {
+      if(!this.canvas) return []
+
+      return this.canvas.getObjects()
     }
   }
 }
 </script>
+
+<style>
+#worksheet{
+  position: relative;
+}
+#img-model{
+  position: absolute;
+  top: 0;
+}
+</style>
 

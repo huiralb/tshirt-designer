@@ -1,6 +1,6 @@
 <template>
   <div class="step-1">
-    <Worksheet></Worksheet>
+    <Worksheet />
   </div>
 </template>
 
