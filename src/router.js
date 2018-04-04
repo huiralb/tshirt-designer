@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import About from './views/About.vue'
+import Step1 from './views/step-1.vue'
 
 Vue.use(Router)
 
@@ -9,13 +8,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: '/1'
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About
+      path: '/1',
+      name: 'step-1',
+      component: Step1
     }
   ]
 })
